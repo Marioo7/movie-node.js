@@ -2,10 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Movie = require("../models/movie");
 
-// GET all movies
+// GET movies with pagination
 router.get("/", async (req, res) => {
   try {
-    const movies = await Movie.find();
+    const limit = parseInt(req.query.limit) || 10; // Number of movies to retrieve
+    const page = parseInt(req.query.page) || 1; // Current page
+    const skip = (page - 1) * limit; // Calculate number of documents to skip
+
+    const movies = await Movie.find().skip(skip).limit(limit);
     res.json(movies);
   } catch (err) {
     res.status(500).json({ message: err.message });
