@@ -2,13 +2,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const movieRoutes = require("./routes/movies");
-
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
 // Middleware
 app.use(bodyParser.json());
 app.use("/movies", movieRoutes);
+app.use(cors());
 
 // Route to respond with "hello" at the root URL
 app.get("/", (req, res) => {
